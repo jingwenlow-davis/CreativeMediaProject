@@ -34,16 +34,17 @@ a{
     padding-left: 20px;
     text-decoration: none;
 }
-/* !NAV */
 
-div.log{
+nav.log{
     text-align: right;
     flex: 0 0 30%;
 }
 
-p.logout{
+a.logout{
     padding-right: 20px;
 }
+/* !NAV */
+
 
 
 /**** !HEADER ****/
@@ -58,12 +59,12 @@ main{
 }
 
 div.feed{
-    background-color: blue;
+    background-color: lightskyblue;
     flex: 0 0 50%;
 }
 
 div.quotes{
-    background-color: grey;
+    background-color: lightgrey;
     flex: 0 0 50%;
 }
 
