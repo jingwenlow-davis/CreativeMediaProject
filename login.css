@@ -1,8 +1,7 @@
-body, html{
+body{
     margin: 0px;
-    padding: 0px;
-    height: 100%;
     font-family: 'Montserrat', sans-serif;
+    background-color: lightgrey;
 }
 
 p{
@@ -37,14 +36,14 @@ a{
 
 nav.log{
     text-align: right;
+    padding-right: 20px;
     flex: 0 0 30%;
 }
 
-a.logout{
+a.login{
     padding-right: 20px;
 }
 /* !NAV */
-
 
 
 /**** !HEADER ****/
@@ -52,23 +51,71 @@ a.logout{
 
 
 /**** MAIN ****/
-main{
-    height: calc(100% - 65px);
+
+div.main{
+    margin: 60px;
     display: flex;
     flex-direction: row;
 }
 
-div.feed{
-    background-color: lightskyblue;
-    flex: 0 0 50%;
+div.register{
+    padding-bottom: 50px;
+    background-color: white;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 50%;
 }
 
-div.quotes{
+div.logger{
+    padding-bottom: 50px;
+    background-color: forestgreen;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 50%;
+}
+
+input{
+    border: 0px;
+    text-align: center;
+    width: 250px;
+    height: 30px;
+    font-size: large;
+    color: black;
     background-color: lightgrey;
-    flex: 0 0 50%;
+    
 }
 
+input::placeholder{
+    color: black;
+}
 
+div.input{
+    padding-bottom: 20px;
+}
+
+button{
+    border-radius: 8px;
+    width: 140px;
+    height: 40px;
+    border: none;
+    font-size: large;
+}
+
+button.register{
+    background-color: forestgreen;
+}
+
+button.logger{
+    background-color: red;
+}
+
+div.buttonLogger{
+    padding-top: 58px;
+}
 
 /**** !MAIN ****/
 
