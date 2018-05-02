@@ -1,0 +1,33 @@
+<!-- templates/registration/login.html -->
+
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Login{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <div class="register">
+        <h1>REGISTER</h1>
+        <div class="input"><input placeholder="Username"></div>
+        <div class="input"><input placeholder="Password"></div>
+        <div class="input"><input placeholder="Confirm Password"></div>
+        <button class="register">Register</button>
+    </div>
+
+    <div class="logger">
+        <h1>LOG IN</h1>
+        <form method="post">
+          {% csrf_token %}
+          <div class="input">{{ form.username }}</div>
+          <div class="input">{{ form.password }}</div>
+          <div class="buttonLogger"><button class="logger" type="submit">Login</button></div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

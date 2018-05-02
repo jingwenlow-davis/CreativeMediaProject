@@ -1,0 +1,36 @@
+<!-- templates/registration/login.html -->
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>{% block title %}SOCIAL{% endblock %}</title>
+    <meta charset="UTF-8">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    {% block css %}
+    {% endblock %}
+    <script language="JavaScript"  src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <header>
+      <nav>
+        <a href="home.html">Home</a>
+        <a href="addPost.html">Add Post</a>
+        <a href="addFriend.html">Add Friend</a>
+      </nav>
+
+      <nav class="log">
+          <a class="login" href="home.html">Login</a>
+      </nav>
+  </header>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>
