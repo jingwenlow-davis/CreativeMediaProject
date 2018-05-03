@@ -4,6 +4,7 @@ from django.shortcuts import render
 # users/views.py
 from django.urls import reverse_lazy
 from django.views import generic
+from django.views.generic import TemplateView
 # from django.views.generic.edit  import CreateView
 
 from django.http import HttpResponse
@@ -19,9 +20,14 @@ class SignUp(generic.CreateView):
 #     return render(request, 'addPost.html', addPost)
 #
 
-class addPost(generic.CreateView):
+class addPost(TemplateView):
     success_url = reverse_lazy('login')
     template_name = 'addPost.html'
+
+
+class addFriend(TemplateView):
+    success_url = reverse_lazy('login')
+    template_name = 'addFriend.html'
 
 
 # class JointLoginSignupView(CreateView):

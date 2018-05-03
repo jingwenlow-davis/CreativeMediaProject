@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Add Friend{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/addFriend.css' %}">
+{% endblock %}
+
+{% block log %}
+  {% if user.is_authenticated %}
+    <a class="login" href="{% url 'logout' %}">Logout</a>
+  {% else %}
+    <a class="login" href="{% url 'login' %}">Login</a>
+  {% endif %}
+{% endblock %}
+
+
+
+
+{% block content %}
+
+    <div class="currFriends">
+       <input>
+    </div>
+
+    <div class="friendsList">
+        <div>
+            <input class="possFriends">
+        </div>
+        <div class="post">
+            <button>Add Friend</button>
+        </div>
+    </div>
+
+{% endblock %}
