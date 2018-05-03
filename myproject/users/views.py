@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 # from django.views.generic.edit  import CreateView
 
-
+from django.http import HttpResponse
 from .forms import CustomUserCreationForm
 
 
@@ -14,6 +14,14 @@ class SignUp(generic.CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
+
+# def addPost(request):
+#     return render(request, 'addPost.html', addPost)
+#
+
+class addPost(generic.CreateView):
+    success_url = reverse_lazy('login')
+    template_name = 'addPost.html'
 
 
 # class JointLoginSignupView(CreateView):
