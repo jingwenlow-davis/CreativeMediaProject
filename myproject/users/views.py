@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 # from django.views.generic.edit  import CreateView
 
 from django.http import HttpResponse
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, AddPost
 
 
 class SignUp(generic.CreateView):
@@ -23,6 +23,17 @@ class SignUp(generic.CreateView):
 class addPost(TemplateView):
     success_url = reverse_lazy('login')
     template_name = 'addPost.html'
+
+    def get(self, request):
+        form = AddPost()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        forms = AddPost(request.POST)
+        if form.is_valid():
+            text = form.cleaned_data['post']
+        args = {'form': form, 'text': text}
+        return render(request, self.template_name, args)
 
 
 class addFriend(TemplateView):

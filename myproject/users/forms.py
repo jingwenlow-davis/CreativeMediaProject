@@ -21,3 +21,6 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = UserChangeForm.Meta.fields
+
+class AddPost(forms.Form):
+    post = forms.CharField()

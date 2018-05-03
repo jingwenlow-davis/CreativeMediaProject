@@ -25,11 +25,20 @@
   </div>
 
   <div class="imgPost">
-      <div>
-          <input class="imgUpload" placeholder="Image Upload (Optional)">
-      </div>
-      <div class="post">
-          <button>Post</button>
-      </div>
+    <form method="post">
+      {% csrf_token %}
+        <div>
+          <div class="imgUpload">{{ form.post }}</div>
+        </div>
+
+        <div class="post">
+            <button>Post</button>
+        </div>
+    </form>
+
   </div>
+
+  <form method="post">
+    <!-- {{ form.as_p }} -->
+  </form>
 {% endblock %}
