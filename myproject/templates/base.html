@@ -9,22 +9,22 @@
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="reset.css">
-    {% block css %}
-    {% endblock %}
+    {% block css %}{% endblock %}
     <script language="JavaScript"  src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
 </head>
 
 <body>
   <header>
       <nav>
-        <a href="home.html">Home</a>
-        <a href="addPost.html">Add Post</a>
-        <a href="addFriend.html">Add Friend</a>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'home' %}">Add Post</a>
+        <a href="{% url 'home' %}">Add Friend</a>
       </nav>
 
       <nav class="log">
-          <a class="login" href="home.html">Login</a>
+        {% block log %}
+          <a class="login" href="{% url 'login' %}">Login</a>
+        {% endblock %}
       </nav>
   </header>
 

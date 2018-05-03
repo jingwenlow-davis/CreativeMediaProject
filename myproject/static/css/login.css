@@ -86,7 +86,7 @@ input{
     font-size: large;
     color: black;
     background-color: lightgrey;
-    
+
 }
 
 input::placeholder{
@@ -118,5 +118,3 @@ div.buttonLogger{
 }
 
 /**** !MAIN ****/
-
-

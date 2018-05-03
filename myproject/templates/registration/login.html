@@ -13,10 +13,13 @@
 <div class="main">
     <div class="register">
         <h1>REGISTER</h1>
-        <div class="input"><input placeholder="Username"></div>
-        <div class="input"><input placeholder="Password"></div>
-        <div class="input"><input placeholder="Confirm Password"></div>
-        <button class="register">Register</button>
+        <form method="post">
+          {% csrf_token %}
+          <div class="input">{{ signupform.username }}</div>
+          <div class="input">{{ signupform.password1 }}</div>
+          <div class="input">{{ signupform.password2 }}</div>
+          <button class="register" type="submit" value='sign_up'>Register</button>
+        </form>
     </div>
 
     <div class="logger">
@@ -25,7 +28,8 @@
           {% csrf_token %}
           <div class="input">{{ form.username }}</div>
           <div class="input">{{ form.password }}</div>
-          <div class="buttonLogger"><button class="logger" type="submit">Login</button></div>
+          {{ form.non_field_errors }}
+          <div class="buttonLogger"><button class="logger" type="submit" value='sign_in'>Login</button></div>
         </form>
     </div>
 </div>

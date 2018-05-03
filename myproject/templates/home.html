@@ -1,0 +1,37 @@
+<!-- templates/home.html -->
+
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Home{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block log %}
+  {% if user.is_authenticated %}
+    <a class="login" href="{% url 'logout' %}">Logout</a>
+  {% else %}
+    <a class="login" href="{% url 'login' %}">Login</a>
+  {% endif %}
+{% endblock %}
+
+
+
+
+{% block content %}
+
+<div class="feed">
+  {% if user.is_authenticated %}
+    Hi {{ user.username }}!
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">login</a> |
+    <a href="{% url 'signup' %}">signup</a>
+  {% endif %}
+</div>
+
+<div class="quotes">
+</div>
+{% endblock %}
