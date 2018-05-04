@@ -29,7 +29,7 @@ class addPost(TemplateView):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        forms = AddPost(request.POST)
+        form = AddPost(request.POST)
         if form.is_valid():
             text = form.cleaned_data['post']
         args = {'form': form, 'text': text}

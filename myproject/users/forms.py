@@ -1,7 +1,7 @@
 # users/forms.py
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
-from .models import CustomUser
+from .models import CustomUser, Post
 
 
 # class CustomAuthenticationForm(AuthenticationForm):
