@@ -20,25 +20,34 @@
 
 
 {% block content %}
-  <div class="textPost">
-     <input placeholder="Text in Post (Not Optional)">
-  </div>
-
-  <div class="imgPost">
-    <form method="post">
-      {% csrf_token %}
-        <div>
-          <div class="imgUpload">{{ form.post }}</div>
-        </div>
-
-        <div class="post">
-            <button>Post</button>
-        </div>
-    </form>
-
-  </div>
-
+<div class="textPost">
   <form method="post">
-    <!-- {{ form.as_p }} -->
+    {% csrf_token %}
+    {{ form.post }}
+    <button type="submit">Post</button>
   </form>
+</div>
+
+<div class="imgPost">
+  <div>
+    <input class="imgUpload" placeholder="Image Upload (Optional)">
+  </div>
+
+  <div class="post">
+      <button type="submit">Post</button>
+  </div>
+
+
+
+<h2>{{ text }}</h2>
+{% for post in posts %}
+  <h1>{{ post.post }}</h1>
+  <p>Posted by: {{ post.user.get_full_name }} on {{ post.date }}</p>
+{% endfor %}
+<form method="post">
+  <!-- {{ form.as_p }} -->
+</form>
+
+</div>
+
 {% endblock %}

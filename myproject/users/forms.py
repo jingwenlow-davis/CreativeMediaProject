@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from .models import CustomUser, Post
+from django.forms import ModelForm
 
 
 # class CustomAuthenticationForm(AuthenticationForm):
@@ -22,5 +23,9 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = UserChangeForm.Meta.fields
 
-class AddPost(forms.Form):
+class AddPost(ModelForm):
     post = forms.CharField()
+
+    class Meta:
+        model = Post
+        fields = ['post',]

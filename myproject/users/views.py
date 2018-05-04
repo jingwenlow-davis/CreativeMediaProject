@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 # users/views.py
@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 
 from django.http import HttpResponse
 from .forms import CustomUserCreationForm, AddPost
-
+from .models import Post
 
 class SignUp(generic.CreateView):
     form_class = CustomUserCreationForm
@@ -26,12 +26,20 @@ class addPost(TemplateView):
 
     def get(self, request):
         form = AddPost()
-        return render(request, self.template_name, {'form': form})
+        posts = Post.objects.all()
+        args = {'form': form, 'posts': posts}
+        return render(request, self.template_name, args)
 
     def post(self, request):
         form = AddPost(request.POST)
         if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+
             text = form.cleaned_data['post']
+            form = addPost()
+            return redirect('addPost')
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
 
