@@ -60,6 +60,8 @@ class addPost(TemplateView):
         return render(request, self.template_name, args)
 
 
+
+
 def change_friends(request, operation, pk):
     friend = User.objects.get(pk=pk)
     if operation == 'add':
@@ -74,6 +76,13 @@ class addFriend(TemplateView):
     success_url = reverse_lazy('login')
     template_name = 'addFriend.html'
 
+    def get(self, request):
+        users = CustomUser.objects.exclude(id=request.user.id)
+        friend = Friend.objects.get(current_user=request.user)
+        friends = friend.users.all()
+
+        args = {'users':users, 'friends':friends}
+        return render(request, self.template_name, args)
 
 # class JointLoginSignupView(CreateView):
 #     form_class = CustomAuthenticationForm
