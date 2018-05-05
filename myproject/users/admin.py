@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .models import Post, Friend
 
 # Register your models here.
 # users/admin.py
@@ -16,3 +17,5 @@ class CustomUserAdmin(UserAdmin):
     list_display = ['email', 'username', 'name']
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Post)
+admin.site.register(Friend)

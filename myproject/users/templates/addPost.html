@@ -26,6 +26,19 @@
     {{ form.post }}
     <button type="submit">Post</button>
   </form>
+
+  <h2>All Friends</h2>
+  {% for user in users %}
+    <h3>{{ user.username }}</h3>
+  {% endfor %}
+
+
+  <!-- {% for friend in friends %}
+    <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+      <h3>{{ friend.username }}</h3>
+    </a>
+  {% endfor %} -->
+
 </div>
 
 <div class="imgPost">
@@ -42,7 +55,7 @@
 <h2>{{ text }}</h2>
 {% for post in posts %}
   <h1>{{ post.post }}</h1>
-  <p>Posted by: {{ post.user.get_full_name }} on {{ post.date }}</p>
+  <p>Posted by: {{ post.user.username }} on {{ post.date }}</p>
 {% endfor %}
 <form method="post">
   <!-- {{ form.as_p }} -->

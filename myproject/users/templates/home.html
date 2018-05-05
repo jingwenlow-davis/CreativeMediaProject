@@ -31,6 +31,15 @@
     <a href="{% url 'login' %}">login</a> |
     <a href="{% url 'signup' %}">signup</a>
   {% endif %}
+
+
+  <h2>{{ text }}</h2>
+  {% for post in posts %}
+    <h1>{{ post.post }}</h1>
+    <p>Posted by: {{ post.user.username }} on {{ post.date }}</p>
+  {% endfor %}
+
+
 </div>
 
 <div class="quotes">
