@@ -40,10 +40,10 @@ class addPost(TemplateView):
         form = AddPost()
         posts = Post.objects.all()
         users = CustomUser.objects.exclude(id=request.user.id)
-        # friend = Friend.objects.get(current_user=request.user)
-        # friends = friend.users.all()
+        friend = Friend.objects.get(current_user=request.user)
+        friends = friend.users.all()
 
-        args = {'form': form, 'posts': posts, 'users':users}#, 'friends':friends}
+        args = {'form': form, 'posts': posts, 'users':users, 'friends':friends}
         return render(request, self.template_name, args)
 
     def post(self, request):
