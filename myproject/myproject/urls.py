@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
+from django.conf.urls import url
 from users import views
 
 
@@ -23,6 +24,6 @@ urlpatterns = [
     # path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('', views.Home.as_view(), name='home'),
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
+    path('users/', include('users.urls')), #, namespace='users')),
     path('users/', include('django.contrib.auth.urls')),
 ]
