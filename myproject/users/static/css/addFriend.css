@@ -71,8 +71,9 @@ div.currFriends{
 
 div.friends{
     border: 0px;
-    width: 100%;
-    height: 300px;
+    padding: 15px;
+    width: 97%;
+    height: 265px;
     font-size: large;
     background-color: white;
     color: black;
@@ -80,7 +81,14 @@ div.friends{
 
 div.list{
     display: flex;
+    flex-direction: column;
+}
+
+div.rowList{
+    display: flex;
     flex-direction: row;
+    width: 230px;
+    justify-content: space-between;
 }
 
 input::placeholder{
@@ -101,14 +109,23 @@ div.friendsList{
 }
 
 div.possFriends{
-    height: 200px;
+    padding: 15px;
+    height: 170px;
+    overflow: scroll;
     background-color: white;
-    text-align: center;
+}
+
+h3.allUsers{
+  margin-bottom: 10px;
+}
+
+a.users{
+  padding: 2px;
+  color: black;
 }
 
 div.post{
     padding-top: 35px;
-
 }
 
 button.x{

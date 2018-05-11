@@ -25,10 +25,12 @@
        <h3>All Friends</h3>
        <div class="list">
          {% for friend in friends %}
-           <p>{{ friend.username }}</p>
-           <a href="{% url 'change_friends' operation='remove' pk='friend.pk' %}">
-             <button class="x">x</button>
-           </a>
+           <div class="rowList">
+             <p>{{ friend.username }}</p>
+             <a href="{% url 'change_friends' operation='remove' pk=friend.pk %}">
+               <button class="x">x</button>
+             </a>
+           </div>
          {% endfor %}
       </div>
     </div>
@@ -47,9 +49,11 @@
 
   <div class="friendsList">
       <div class="possFriends">
-        <h3>All Users</h3>
+        <h3 class="allUsers">All Users</h3>
         {% for user in users %}
-          <p>{{ user.username }}</p>
+        <a class="users" href="{% url 'change_friends' operation='add' pk=user.pk %}">
+          {{ user.username }}
+        </a>
         {% endfor %}
       </div>
       <div class="post">

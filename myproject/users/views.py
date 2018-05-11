@@ -40,8 +40,8 @@ class addPost(TemplateView):
         form = AddPost()
         posts = Post.objects.all()
         users = CustomUser.objects.exclude(id=request.user.id)
-        friend = Friend.objects.get(current_user=request.user)
-        friends = friend.users.all()
+        friend = Friend.objects.filter(current_user=request.user)
+        friends = friend[0].users.all()
 
         args = {'form': form, 'posts': posts, 'users':users, 'friends':friends}
         return render(request, self.template_name, args)
@@ -61,17 +61,6 @@ class addPost(TemplateView):
 
 
 
-
-def change_friends(request, operation, pk):
-    friend = User.objects.get(pk=pk)
-    if operation == 'add':
-        Friend.make_friend(request.user, friend)
-
-    elif operation == 'remove':
-        Friend.lose_friend(request.user, friend)
-    return redirect('home.html')
-
-
 class addFriend(TemplateView):
     success_url = reverse_lazy('login')
     template_name = 'addFriend.html'
@@ -83,6 +72,20 @@ class addFriend(TemplateView):
 
         args = {'users':users, 'friends':friends}
         return render(request, self.template_name, args)
+
+
+
+def change_friends(request, operation, pk):
+    friend = CustomUser.objects.get(pk=pk)
+    if operation == 'add':
+        Friend.make_friend(request.user, friend)
+
+    elif operation == 'remove':
+        Friend.lose_friend(request.user, friend)
+        
+    return redirect('addFriend')
+
+
 
 # class JointLoginSignupView(CreateView):
 #     form_class = CustomAuthenticationForm
