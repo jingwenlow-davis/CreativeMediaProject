@@ -35,8 +35,14 @@
 
   <h2>{{ text }}</h2>
   {% for post in posts %}
-    <h1>{{ post.post }}</h1>
-    <p>Posted by: {{ post.user.username }} on {{ post.date }}</p>
+    <div class="post">
+      <div class="name">
+        <h3 class="usrnm">{{ post.user.username }}</h3>
+      </div>
+        <div class="postContent">
+        <p class="text">{{ post.post }}</p>
+      </div>
+    </div>
   {% endfor %}
 
 

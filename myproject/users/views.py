@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 # users/views.py
 from django.urls import reverse_lazy
@@ -31,7 +33,6 @@ class Home(TemplateView):
         return render(request, self.template_name, args)
 
 
-
 class addPost(TemplateView):
     success_url = reverse_lazy('login')
     template_name = 'addPost.html'
@@ -60,7 +61,7 @@ class addPost(TemplateView):
         return render(request, self.template_name, args)
 
 
-
+# @login_required(login_url='home')
 class addFriend(TemplateView):
     success_url = reverse_lazy('login')
     template_name = 'addFriend.html'
@@ -82,7 +83,7 @@ def change_friends(request, operation, pk):
 
     elif operation == 'remove':
         Friend.lose_friend(request.user, friend)
-        
+
     return redirect('addFriend')
 
 

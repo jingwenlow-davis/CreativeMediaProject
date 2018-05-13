@@ -53,11 +53,16 @@ a.login{
 
 main{
     margin: 30px;
-    display: flex;
-    flex-direction: row;
 }
 
 /* TEXTPOST */
+
+div.form{
+  display: flex;
+  flex-direction: row;
+}
+
+
 div.textPost{
     padding-right: 30px;
     flex: 0 0 75%;
@@ -90,7 +95,7 @@ div.imgPost{
 }
 
 div.imgUpload{
-    height: 200px;
+    height: 180px;
 }
 
 div.post{

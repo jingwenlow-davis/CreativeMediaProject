@@ -113,6 +113,8 @@ div.possFriends{
     height: 170px;
     overflow: scroll;
     background-color: white;
+    display: flex;
+    flex-direction: column;
 }
 
 h3.allUsers{

@@ -24,7 +24,7 @@ class CustomUserChangeForm(UserChangeForm):
         fields = UserChangeForm.Meta.fields
 
 class AddPost(ModelForm):
-    post = forms.CharField()
+    post = forms.CharField(widget=forms.Textarea(attrs={'width':"100%", 'cols' : "80", 'rows': "20", }))
 
     class Meta:
         model = Post
