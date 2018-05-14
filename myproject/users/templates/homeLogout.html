@@ -25,6 +25,12 @@
 <div class="feed">
   {% if user.is_authenticated %}
     Hi {{ user.username }}!
+  {% else %}
+    <p>You are not logged in</p>
+    <p>Please log in!</p>
+    <a href="{% url 'login' %}">login</a> |
+    <a href="{% url 'signup' %}">signup</a>
+
 
     <h2>{{ text }}</h2>
     {% for post in posts %}
@@ -37,13 +43,8 @@
         </div>
       </div>
     {% endfor %}
-
-  {% else %}
-    <p>You are not logged in</p>
-    <p>Please log in!</p>
-    <a href="{% url 'login' %}">login</a> |
-    <a href="{% url 'signup' %}">signup</a>
   {% endif %}
+
 
 </div>
 

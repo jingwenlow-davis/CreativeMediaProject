@@ -22,7 +22,7 @@ from users import views
 
 urlpatterns = [
     # path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('', views.Home.as_view(), name='home'),
+    path('home', views.Home.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')), #, namespace='users')),
     path('users/', include('django.contrib.auth.urls')),
