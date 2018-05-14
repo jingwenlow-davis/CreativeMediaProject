@@ -65,7 +65,7 @@ div.form{
 
 div.textPost{
     padding-right: 30px;
-    flex: 0 0 75%;
+    flex: 0 0 70%;
 }
 
 input{
@@ -91,7 +91,7 @@ div.input{
 div.imgPost{
     display: flex;
     flex-direction: column;
-    flex: 0 0 22%;
+    flex: 0 0 25%;
 }
 
 div.imgUpload{
@@ -100,7 +100,6 @@ div.imgUpload{
 
 div.post{
     padding-top: 35px;
-
 }
 
 button{

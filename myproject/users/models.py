@@ -7,6 +7,7 @@ from django.conf import settings
 
 class Post(models.Model):
     post = models.CharField(max_length=500)
+    img = models.FileField(null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     date = models.DateTimeField(auto_now=True)
 

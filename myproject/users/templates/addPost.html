@@ -25,12 +25,11 @@
   <div class="textPost">
       {% csrf_token %}
       {{ form.post }}
-
   </div>
 
   <div class="imgPost">
     <div>
-      <input class="imgUpload" placeholder="Image Upload (Optional)">
+      <div class="imgUpload"> {{ form.img }} </div>
     </div>
 
     <div class="post">
