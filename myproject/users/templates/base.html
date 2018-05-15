@@ -22,6 +22,9 @@
       </nav>
 
       <nav class="log">
+        {% if user.is_authenticated %}
+          Hi {{ user.username }}!
+        {% endif %}
         {% block log %}
           <a class="login" href="{% url 'login' %}">Login</a>
         {% endblock %}

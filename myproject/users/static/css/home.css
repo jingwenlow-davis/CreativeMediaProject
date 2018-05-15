@@ -82,7 +82,7 @@ h3.usrnm{
 }
 
 div.postContent{
-  min-height: 100px;
+  min-height: 115px;
   display: flex;
   flex-direction: row;
 }

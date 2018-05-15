@@ -24,8 +24,6 @@
 
 <div class="feed">
   {% if user.is_authenticated %}
-    Hi {{ user.username }}!
-
     <h2>{{ text }}</h2>
     {% for post in posts %}
       <div class="post">
