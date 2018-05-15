@@ -20,7 +20,7 @@
 
 
 {% block content %}
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 <div class="form">
   <div class="textPost">
       {% csrf_token %}
@@ -33,7 +33,7 @@
     </div>
 
     <div class="post">
-        <button type="submit">Post</button>
+      <button type="submit">Post</button>
     </div>
   </div>
 </div>

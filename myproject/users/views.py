@@ -53,16 +53,18 @@ class addPost(TemplateView):
         return render(request, self.template_name, args)
 
     def post(self, request):
-        form = AddPost(request.POST)
+        form = AddPost(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
+            # instance = AddPost(img=request.FILES['file'])
+            # instance.save()
             post.user = request.user
             post.save()
 
-            text = form.cleaned_data['post']
+            # text = form.cleaned_data['post']
             form = addPost()
             return redirect('addPost')
-        args = {'form': form, 'text': text}
+        args = {'form': form}
         return render(request, self.template_name, args)
 
 

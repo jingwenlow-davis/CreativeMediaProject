@@ -24,9 +24,9 @@ class CustomUserChangeForm(UserChangeForm):
         fields = UserChangeForm.Meta.fields
 
 class AddPost(ModelForm):
-    post = forms.CharField(widget=forms.Textarea(attrs={'width':"100%", 'cols' : "80", 'rows': "20", }))
-    img = forms.FileField()
+    post = forms.CharField(widget=forms.Textarea(attrs={'width':"100%", 'cols' : "95", 'rows': "20", }))
+    img = forms.FileField(required=False)
 
     class Meta:
         model = Post
-        fields = ['post', 'img']
+        fields = ['post', 'img',]
