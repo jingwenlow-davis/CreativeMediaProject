@@ -81,6 +81,26 @@ h3.usrnm{
   margin: 0px;
 }
 
-p.text{
+div.postContent{
+  min-height: 100px;
+  display: flex;
+  flex-direction: row;
+}
+
+div.pic{
+  background: lightgrey;
+  display: flex;
+  flex: 0 0 28%;
+  margin: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+div.text{
   padding: 10px;
+  margin: 8px;
+  margin-left: 0px;
+  background-color: lightgrey;
+  flex: 0 0 60%;
 }

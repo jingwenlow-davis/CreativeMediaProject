@@ -32,10 +32,14 @@
         <div class="name">
           <h3 class="usrnm">{{ post.user.username }}</h3>
         </div>
-          <div class="postContent">
-          <p class="text">{{ post.post }}</p>
-            <img src="media/{{ post.img }}" width="200px">
-\        </div>
+        <div class="postContent">
+          {% if post.img %}
+          <div class="pic"><img src="media/{{ post.img }}" width="100%"></div>
+          {% else %}
+          <div class="pic">no image</div>
+          {% endif %}
+          <div class="text"><p>{{ post.post }}</p></div>
+        </div>
       </div>
     {% endfor %}
 
