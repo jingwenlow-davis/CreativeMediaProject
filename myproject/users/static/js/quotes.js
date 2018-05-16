@@ -30,18 +30,17 @@
   }
 
   function callback(){
-    var data = this.responseText;
-    alert(data);
-    var quotes = document.getElementById("quotes").value;
+    var data = JSON.parse(this.responseText); // parse the JSON received from the AJAX
+    data = data.slice(0, 2); // get the first 10
+    // alert(data[0].quote);
+    var quotes = document.getElementById("quotes");
+
     var holdQuote = document.createElement('div');
     var quote = document.createElement('p');
     quote.textContent = data[0].quote;
     holdQuote.append(quote);
-
-  	// invalidQueryDiv.append(invalidQueryPgh);
-  	// mainDisplay.append(invalidQueryDiv);
-  	// invalidQueryDiv.id = "invalidQ";
-
+    quotes.append(holdQuote);
+    holdQuote.id = holdQuote;
   }
 
 
