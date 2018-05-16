@@ -11,18 +11,21 @@ from django.forms import ModelForm
 #         self.fields['username'].widget.placeholder = 'Username'
 #         self.fields['password'].widget.placeholder = 'Password'
 
+# login form
 class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = ('username', 'email')
 
+# change user form not used
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = CustomUser
         fields = UserChangeForm.Meta.fields
 
+# form to add post
 class AddPost(ModelForm):
     post = forms.CharField(widget=forms.Textarea(attrs={'width':"100%", 'cols' : "95", 'rows': "20", }))
     img = forms.FileField(required=False)

@@ -25,10 +25,12 @@ class Home(TemplateView):
     def get(self, request):
         if request.user.is_authenticated:
             form = AddPost()
-            friend = Friend.objects.filter(current_user=request.user)
-            friends = friend[0].users.all()
-            friends_list = list(friends)
-            posts = Post.objects.all() #filter(user__id_in=friends_list)
+            friend = Friend.objects.filter(current_user=request.user) # get current user's friend object
+            friends = friend[0].users.all() # get list of friends
+            friends_ids = list(friends.values_list('id', flat=True)) # get list of ids of friends
+            # filter only current user and their friend's posts
+            posts = Post.objects.filter(user__id__in=friends_ids) | Post.objects.filter(user=request.user)
+            # list of all possible users not including current user
             users = CustomUser.objects.exclude(id=request.user.id)
 
             args = {'form': form, 'posts': posts, 'users':users}
@@ -41,7 +43,7 @@ class addPost(TemplateView):
     success_url = reverse_lazy('login')
     template_name = 'addPost.html'
 
-    @method_decorator(login_required)
+    @method_decorator(login_required) # redirect to home if logged out
     def get(self, request):
         form = AddPost()
         posts = Post.objects.all()

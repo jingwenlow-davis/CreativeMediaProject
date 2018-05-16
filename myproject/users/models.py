@@ -5,12 +5,14 @@ from django.db import models
 from django.conf import settings
 # users/models.py
 
+# store posts made by users
 class Post(models.Model):
     post = models.CharField(max_length=500)
     img = models.FileField(upload_to='uploads', null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     date = models.DateTimeField(auto_now=True)
 
+# store list of friends of each user
 class Friend(models.Model):
     users = models.ManyToManyField(settings.AUTH_USER_MODEL)
     current_user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='owner', null=True, on_delete=models.PROTECT)
@@ -29,7 +31,7 @@ class Friend(models.Model):
         )
         friend.users.remove(new_friend)
 
-
+# store users
 class CustomUser(AbstractUser):
     # First/last name is not a global-friendly pattern
     name = models.CharField(blank=True, max_length=255)
