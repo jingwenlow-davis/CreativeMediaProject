@@ -25,31 +25,27 @@
   function updateDB() {
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "https://talaikis.com/api/quotes/");
-    xhttp.addEventListener("load", callback);
+    xhttp.addEventListener("load", callback); // go to callback function
     xhttp.send();
   }
 
   function callback(){
     var data = JSON.parse(this.responseText); // parse the JSON received from the AJAX
-    data = data.slice(0, 2); // get the first 10
-    // alert(data[0].quote);
+    data = data.slice(0, 10); // get the first 10
     var quotes = document.getElementById("quotes");
+var i = 0;
+for(i=0; i<10; i++){
 
-    var holdQuote = document.createElement('div');
-    var quote = document.createElement('p');
-    quote.textContent = data[0].quote;
-    holdQuote.append(quote);
-    quotes.append(holdQuote);
-    holdQuote.id = holdQuote;
+      var holdQuote = document.createElement('div'); // div to hold quote (orange box)
+      var quote = document.createElement('p'); // p to hold text
+      quote.textContent = data[i].quote; // append quote to text
+      holdQuote.append(quote);
+      quotes.append(holdQuote);
+      holdQuote.id = "holdQuote";
+    }
   }
 
+  window.onload = updateDB; // call function when page loaded
 
-// [
-// {"quote":"It's really funny because the same people who loved me as Stringer Bell were the same people that were watching 'Daddy's Little Girls' literally in tears.",
-//   "author":"Idris Elba",
-//   "cat":"funny"
-// },
-// {"quote":"If I wasn't even famous or had any success, I would still wake up and put tons of make-up on, and put on a cool outfit. That's always been who I've been my whole life, so that's never gonna change. I love fashion. I love getting dressed up. I love Halloween, too.",
-//   "author":"Gwen Stefani",
-//   "cat":"cool"},
-// {"quote":"I don't think the objective of an abortion clinic is to try to talk women out of having the"}
+
+// <button id="q" onclick="updateDB()">Get JSON data</button>

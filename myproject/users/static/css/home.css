@@ -104,3 +104,17 @@ div.text{
   background-color: lightgrey;
   flex: 0 0 60%;
 }
+
+
+
+/**** QUOTES ****/
+
+#holdQuote{
+  background-color: #f38630;
+  margin: 20px;
+  padding: 10px;
+  margin bottom: 0px;
+}
+
+
+/**** !QUOTES ****/
