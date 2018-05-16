@@ -7,6 +7,8 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
+<script src="{% static 'js/quotes.js' %}"></script>
+
 {% endblock %}
 
 {% block log %}
@@ -50,6 +52,13 @@
 
 </div>
 
-<div class="quotes">
+<div id="quotes" class="quotes">
+  <button id="q" onclick="updateDB()">Get JSON data</button>
+  <div class="post">
+  </div>
 </div>
+{% endblock %}
+
+
+{% block body %}
 {% endblock %}
