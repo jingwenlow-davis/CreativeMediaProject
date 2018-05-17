@@ -40,16 +40,23 @@ class SignUp(generic.CreateView):
 #          return self.form_invalid(form)
 
 def loginView(request):
-     username = form.cleaned_data['username']
-     password = form.cleaned_data['password']
-     user = authenticate(username=username, password=password)
+    form = CustomAuthenticationForm(request.POST)
+    if request.method == "POST" and form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(username=username, password=password)
 
-     if user is not None and user.is_active:
+        if user is not None and user.is_active:
          login(self.request, user)
-         return render('home.html', args)
+         return HttpResponseRedirect('home.html')
+         # return render('home.html', args)
+
          # return super(LoginView, self).form_valid(form)
-     else:
+        else:
          return self.form_invalid(form)
+
+
+
 
 def signupView(request):
     form_class = CustomUserCreationForm

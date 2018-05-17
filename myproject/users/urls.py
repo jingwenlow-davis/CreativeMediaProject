@@ -11,8 +11,8 @@ urlpatterns = [
     path('addPost/', views.addPost.as_view(), name='addPost'),
     path('addFriend/', views.addFriend.as_view(), name='addFriend'),
     path('newLogin/', views.newLogin.as_view(), name='newLogin'),
-    path('loginView/', views.loginView),
-    path('signupView/', views.signupView),
+    path('loginView/', views.loginView, name='loginView'),
+    path('signupView/', views.signupView, name='signupView'),
     #path('connect/(?P<operation>.+)/(?P<pk>\d+)/$', views.change_friends, name='change_friends'),
     url(r'^connect/(?P<operation>.+)/(?P<pk>\d+)/$', views.change_friends, name='change_friends'),
     # url(r'^log/(?P<operation>.+)/$', views.log, name='log')
