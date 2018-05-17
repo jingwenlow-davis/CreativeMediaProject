@@ -8,16 +8,66 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import TemplateView
+from django.contrib.auth.views import LoginView, LogoutView
+
 # from django.views.generic.edit  import CreateView
 
 from django.http import HttpResponse
-from .forms import CustomUserCreationForm, AddPost
+from .forms import CustomAuthenticationForm, CustomUserCreationForm, AddPost
 from .models import Post, Friend, CustomUser
+
 
 class SignUp(generic.CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
+
+
+# class LoginView(generic.FormView):
+#     form_class = LoginForm
+#     success_url = reverse_lazy('home')
+#     template_name = 'registration/login.html'
+#
+#     def form_valid(self, form):
+#      username = form.cleaned_data['username']
+#      password = form.cleaned_data['password']
+#      user = authenticate(username=username, password=password)
+#
+#      if user is not None and user.is_active:
+#          login(self.request, user)
+#          return super(LoginView, self).form_valid(form)
+#      else:
+#          return self.form_invalid(form)
+
+def loginView(request):
+     username = form.cleaned_data['username']
+     password = form.cleaned_data['password']
+     user = authenticate(username=username, password=password)
+
+     if user is not None and user.is_active:
+         login(self.request, user)
+         return render('home.html', args)
+         # return super(LoginView, self).form_valid(form)
+     else:
+         return self.form_invalid(form)
+
+def signupView(request):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'signup.html'
+
+
+
+class newLogin(TemplateView):
+    template_name = 'newLogin.html'
+    def get(self, request):
+        formA = CustomAuthenticationForm()
+        formB = CustomUserCreationForm()
+
+        args = {'formA': formA, 'formB': formB}
+        return render(request, self.template_name, args)
+
+
 
 
 class Home(TemplateView):
@@ -46,10 +96,10 @@ class addPost(TemplateView):
     @method_decorator(login_required) # redirect to home if logged out
     def get(self, request):
         form = AddPost()
-        posts = Post.objects.all()
-        users = CustomUser.objects.exclude(id=request.user.id)
-        friend = Friend.objects.filter(current_user=request.user)
-        friends = friend[0].users.all()
+        posts = Post.objects.all() # get all posts
+        users = CustomUser.objects.exclude(id=request.user.id) # get all users except current user
+        friend = Friend.objects.filter(current_user=request.user) # get current user's friend object
+        friends = friend[0].users.all() # get all of current user's friends
 
         args = {'form': form, 'posts': posts, 'users':users, 'friends':friends}
         return render(request, self.template_name, args)
@@ -74,9 +124,9 @@ class addFriend(TemplateView):
     success_url = reverse_lazy('login')
     template_name = 'addFriend.html'
 
-    @method_decorator(login_required)
+    @method_decorator(login_required) # redirect to home if logged out
     def get(self, request):
-        users = CustomUser.objects.exclude(id=request.user.id)
+        users = CustomUser.objects.exclude(id=request.user.id) #
         friend = Friend.objects.get(current_user=request.user)
         friends = friend.users.all()
 

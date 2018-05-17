@@ -11,7 +11,14 @@ from django.forms import ModelForm
 #         self.fields['username'].widget.placeholder = 'Username'
 #         self.fields['password'].widget.placeholder = 'Password'
 
-# login form
+class CustomAuthenticationForm(AuthenticationForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'password1', 'password2')
+
+
+# signup form
 class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):

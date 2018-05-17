@@ -15,9 +15,9 @@
         <h1>REGISTER</h1>
         <form action="/users/signupView/" method="post">
           {% csrf_token %}
-          <div class="input">{{ signupform.username }}</div>
-          <div class="input">{{ signupform.password1 }}</div>
-          <div class="input">{{ signupform.password2 }}</div>
+          <div class="input">{{ formB.username }}</div>
+          <div class="input">{{ formB.password1 }}</div>
+          <div class="input">{{ formB.password2 }}</div>
           <button class="register" type="submit" value='sign_up'>Register</button>
         </form>
     </div>
@@ -26,8 +26,8 @@
         <h1>LOG IN</h1>
         <form method="post">
           {% csrf_token %}
-          <div class="input">{{ form.username }}</div>
-          <div class="input">{{ form.password }}</div>
+          <div class="input">{{ formA.username }}</div>
+          <div class="input">{{ formA.password }}</div>
           {{ form.non_field_errors }}
           <div class="buttonLogger"><button class="logger" type="submit" value='sign_in'>Login</button></div>
         </form>
