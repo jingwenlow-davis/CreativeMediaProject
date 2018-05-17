@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib.auth import authenticate, login
+
 
 # Create your views here.
 # users/views.py
@@ -13,7 +15,6 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 # from django.views.generic.edit  import CreateView
 
-from django.http import HttpResponse
 from .forms import CustomAuthenticationForm, CustomUserCreationForm, AddPost
 from .models import Post, Friend, CustomUser
 
@@ -41,20 +42,20 @@ from .models import Post, Friend, CustomUser
 #          return self.form_invalid(form)
 
 def loginView(request):
-    form = CustomAuthenticationForm(request.POST)
-    if request.method == "POST" and form.is_valid():
-        username = form.cleaned_data['username']
-        password = form.cleaned_data['password']
-        user = authenticate(username=username, password=password)
+    # form = CustomAuthenticationForm(request.POST)
+    # if request.method == "POST" and form.is_valid():
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = authenticate(request, username=username, password=password)
 
-        if user is not None and user.is_active:
-            login(self.request, user)
-            return HttpResponseRedirect('/home')
-         # return render('home.html', args)
-         # return super(LoginView, self).form_valid(form)
-        else:
-            return self.form_invalid(form)
-    return HttpResponseRedirect('/home')
+    if user is not None and user.is_active:
+        login(request, user)
+        return HttpResponseRedirect('/home')
+     # return render('home.html', args)
+     # return super(LoginView, self).form_valid(form)
+    else:
+        return HttpResponseRedirect('/users/newLogin')
+# return HttpResponseRedirect('/home')
 
 
 
@@ -64,14 +65,19 @@ def signupView(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data['username']
-            raw_password = form.cleaned_data['password1']
-            user = authenticate(username=username, password=raw_password)
+            username = request.POST.get('username')
+            password1 = request.POST.get('password1')
+            password2 = request.POST.get('password2')
+            if not password2:
+                raise forms.ValidationError("You must confirm your password")
+            if password1 != password2:
+                raise forms.ValidationError("Your passwords do not match")
+            user = authenticate(request, username=username, password=password1)
             login(request, user)
             return redirect('/home')
     else:
         form = CustomUserCreationForm()
-    return HttpResponseRedirect('/home')
+    return HttpResponseRedirect('/users/newLogin')
     # return render(request, 'signup.html', {'form': form})
 
 
@@ -93,12 +99,15 @@ class Home(TemplateView):
     def get(self, request):
         if request.user.is_authenticated:
             form = AddPost()
-            friend = Friend.objects.filter(current_user=request.user) # get current user's friend object
-            friends = friend[0].users.all() # get list of friends
-            friends_ids = list(friends.values_list('id', flat=True)) # get list of ids of friends
+            if Friend.objects.filter(current_user=request.user):
+                friend = Friend.objects.filter(current_user=request.user) # get current user's friend object
+                friends = friend[0].users.all() # get list of friends
+                friends_ids = list(friends.values_list('id', flat=True)) # get list of ids of friends
             # filter only current user and their friend's posts
-            posts = Post.objects.filter(user__id__in=friends_ids) | Post.objects.filter(user=request.user)
+                posts = Post.objects.filter(user__id__in=friends_ids) | Post.objects.filter(user=request.user)
+            else:
             # list of all possible users not including current user
+                posts = Post.objects.filter(user=request.user)
             users = CustomUser.objects.exclude(id=request.user.id)
 
             args = {'form': form, 'posts': posts, 'users':users}
@@ -114,10 +123,12 @@ class addPost(TemplateView):
     @method_decorator(login_required) # redirect to home if logged out
     def get(self, request):
         form = AddPost()
+        friends = []
         posts = Post.objects.all() # get all posts
         users = CustomUser.objects.exclude(id=request.user.id) # get all users except current user
-        friend = Friend.objects.filter(current_user=request.user) # get current user's friend object
-        friends = friend[0].users.all() # get all of current user's friends
+        if Friend.objects.filter(current_user=request.user):
+            friend = Friend.objects.filter(current_user=request.user) # get current user's friend object
+            friends = friend[0].users.all() # get all of current user's friends
 
         args = {'form': form, 'posts': posts, 'users':users, 'friends':friends}
         return render(request, self.template_name, args)
@@ -144,9 +155,11 @@ class addFriend(TemplateView):
 
     @method_decorator(login_required) # redirect to home if logged out
     def get(self, request):
+        friends = []
         users = CustomUser.objects.exclude(id=request.user.id) #
-        friend = Friend.objects.get(current_user=request.user)
-        friends = friend.users.all()
+        if Friend.objects.filter(current_user=request.user):
+            friend = Friend.objects.get(current_user=request.user)
+            friends = friend.users.all()
 
         args = {'users':users, 'friends':friends}
         return render(request, self.template_name, args)
