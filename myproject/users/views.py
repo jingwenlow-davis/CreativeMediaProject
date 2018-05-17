@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -17,10 +18,10 @@ from .forms import CustomAuthenticationForm, CustomUserCreationForm, AddPost
 from .models import Post, Friend, CustomUser
 
 
-class SignUp(generic.CreateView):
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'signup.html'
+# class SignUp(generic.CreateView):
+#     form_class = CustomUserCreationForm
+#     success_url = reverse_lazy('login')
+#     template_name = 'signup.html'
 
 
 # class LoginView(generic.FormView):
@@ -47,21 +48,31 @@ def loginView(request):
         user = authenticate(username=username, password=password)
 
         if user is not None and user.is_active:
-         login(self.request, user)
-         return HttpResponseRedirect('home.html')
+            login(self.request, user)
+            return HttpResponseRedirect('/home')
          # return render('home.html', args)
-
          # return super(LoginView, self).form_valid(form)
         else:
-         return self.form_invalid(form)
+            return self.form_invalid(form)
+    return HttpResponseRedirect('/home')
 
 
 
 
 def signupView(request):
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'signup.html'
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            raw_password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/home')
+    else:
+        form = CustomUserCreationForm()
+    return HttpResponseRedirect('/home')
+    # return render(request, 'signup.html', {'form': form})
 
 
 

@@ -13,9 +13,9 @@
 
 {% block log %}
   {% if user.is_authenticated %}
-    <a class="login" href="{% url 'logout' %}">Logout</a>
+    <a class="login" href="{% url 'newLogin' %}">Logout</a>
   {% else %}
-    <a class="login" href="{% url 'login' %}">Login</a>
+    <a class="login" href="{% url 'newLogin' %}">Login</a>
   {% endif %}
 {% endblock %}
 
@@ -46,8 +46,6 @@
   {% else %}
     <p>You are not logged in</p>
     <p>Please log in!</p>
-    <a href="{% url 'login' %}">login</a> |
-    <a href="{% url 'signup' %}">signup</a>
   {% endif %}
 
 </div>
