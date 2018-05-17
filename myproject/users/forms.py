@@ -1,16 +1,9 @@
-# users/forms.py
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from .models import CustomUser, Post
 from django.forms import ModelForm
 
-
-# class CustomAuthenticationForm(AuthenticationForm):
-#     def __init__(self, *args, **kwargs):
-#         super(MyLoginForm, self).__init__(*args, **kwargs)
-#         self.fields['username'].widget.placeholder = 'Username'
-#         self.fields['password'].widget.placeholder = 'Password'
-
+# login form
 class CustomAuthenticationForm(AuthenticationForm):
 
     class Meta:
@@ -25,7 +18,7 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('username', 'email')
 
-# change user form not used
+# change user form: not used
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
