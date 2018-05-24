@@ -17,10 +17,11 @@ from .models import Post, Friend, CustomUser
 
 # when user clicks login
 def loginView(request):
-    # why didn't thi work?:
-    # form = CustomAuthenticationForm(request.POST)
-    # if request.method == "POST" and form.is_valid():
-    # username = form.cleaned_data['username']
+    # why didn't this work?:
+    form = CustomAuthenticationForm(request.POST)
+    if request.method == "POST" and form.is_valid():
+        print(form.cleaned_data['username'])
+        username = form.cleaned_data['username']
     username = request.POST.get('username') # get username
     password = request.POST.get('password') # get password
     user = authenticate(request, username=username, password=password) # authenticate user
@@ -50,7 +51,8 @@ def signupView(request):
             user = authenticate(request, username=username, password=password1) # authenticate user
             login(request, user) # login user
             return redirect('/home') # bring user to home page
-    else:
+        else:
+            print(form.errors)
         form = CustomUserCreationForm()
     return HttpResponseRedirect('/users/newLogin')
 
