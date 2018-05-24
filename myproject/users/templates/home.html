@@ -11,15 +11,6 @@
 
 {% endblock %}
 
-{% block log %}
-  {% if user.is_authenticated %}
-    <a class="login" href="{% url 'logout' %}">Logout</a>
-  {% else %}
-    <a class="login" href="{% url 'newLogin' %}">Login</a>
-  {% endif %}
-{% endblock %}
-
-
 
 
 {% block content %}
@@ -34,7 +25,7 @@
         </div>
         <div class="postContent">
           {% if post.img %}
-          <div class="pic"><img src="media/{{ post.img }}" width="100%"></div>
+          <div class="pic"><img src="/media/{{ post.img }}" width="100%"></div>
           {% else %}
           <div class="pic">no image</div>
           {% endif %}

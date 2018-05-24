@@ -8,7 +8,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'password1', 'password2')
+        fields = ('username', 'password')
 
 
 # signup form
@@ -16,7 +16,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username', 'email')
+        fields = ('username', 'password1', 'password2',)
 
 # change user form: not used
 class CustomUserChangeForm(UserChangeForm):

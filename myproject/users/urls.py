@@ -9,7 +9,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('addPost/', views.addPost.as_view(), name='addPost'),
     path('addFriend/', views.addFriend.as_view(), name='addFriend'),
-    path('newLogin/', views.newLogin.as_view(), name='newLogin'),
+    path('login/', views.auth_login.as_view(), name='login'),
     path('loginView/', views.loginView, name='loginView'),
     path('signupView/', views.signupView, name='signupView'),
     url(r'^connect/(?P<operation>.+)/(?P<pk>\d+)/$', views.change_friends, name='change_friends'),

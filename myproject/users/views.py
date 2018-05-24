@@ -18,10 +18,10 @@ from .models import Post, Friend, CustomUser
 # when user clicks login
 def loginView(request):
     # why didn't this work?:
-    form = CustomAuthenticationForm(request.POST)
-    if request.method == "POST" and form.is_valid():
-        print(form.cleaned_data['username'])
-        username = form.cleaned_data['username']
+    # form = CustomAuthenticationForm(request.POST)
+    # if request.method == "POST" and form.is_valid():
+    #     username = form.cleaned_data['username']
+    #     password = form.cleaned_data['password']
     username = request.POST.get('username') # get username
     password = request.POST.get('password') # get password
     user = authenticate(request, username=username, password=password) # authenticate user
@@ -31,7 +31,7 @@ def loginView(request):
         return HttpResponseRedirect('/home') # bring user to home page
     else:
         # stay on the same page for incorrect login
-        return HttpResponseRedirect('/users/newLogin')
+        return HttpResponseRedirect('/users/login')
 
 
 
@@ -41,25 +41,27 @@ def signupView(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = request.POST.get('username') # get username
-            password1 = request.POST.get('password1') # get first password
-            password2 = request.POST.get('password2') # get second password
+            username = form.cleaned_data['username']
+            password1 = form.cleaned_data['password1']
+            password2 = form.cleaned_data['password2']
             if not password2: # make sure there is a second password
-                raise forms.ValidationError("You must confirm your password")
+                # raise forms.ValidationError("You must confirm your password")
+                print(form.errors)
             if password1 != password2: # make sure first and seocond passwords match!
-                raise forms.ValidationError("Your passwords do not match")
+                # raise forms.ValidationError("Your passwords do not match")
+                print(form.errors)
             user = authenticate(request, username=username, password=password1) # authenticate user
             login(request, user) # login user
-            return redirect('/home') # bring user to home page
+            return redirect('/users/login') # bring user to home page
         else:
             print(form.errors)
-        form = CustomUserCreationForm()
-    return HttpResponseRedirect('/users/newLogin')
+        #form = CustomUserCreationForm()
+    return HttpResponseRedirect('/users/login')
 
 
 # login view
-class newLogin(TemplateView):
-    template_name = 'newLogin.html'
+class auth_login(TemplateView):
+    template_name = 'login.html'
     def get(self, request):
         formA = CustomAuthenticationForm() # form to login
         formB = CustomUserCreationForm() # form to signup
