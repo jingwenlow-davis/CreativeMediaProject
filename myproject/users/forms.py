@@ -5,6 +5,8 @@ from django.forms import ModelForm
 
 # login form
 class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(label='username',widget=forms.TextInput(attrs={'placeholder':'username'}))
+    password = forms.CharField(label='password',widget=forms.PasswordInput(attrs={'placeholder':'password'}))
 
     class Meta:
         model = CustomUser
@@ -13,6 +15,9 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 # signup form
 class CustomUserCreationForm(UserCreationForm):
+    username = forms.CharField(label='username',widget=forms.TextInput(attrs={'placeholder':'username'}))
+    password1 = forms.CharField(label='password',widget=forms.PasswordInput(attrs={'placeholder':'password'}))
+    password2 = forms.CharField(label='password',widget=forms.PasswordInput(attrs={'placeholder':'confirm password'}))
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser

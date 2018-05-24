@@ -90,7 +90,7 @@ input{
 }
 
 input::placeholder{
-    color: black;
+    color: grey;
 }
 
 div.input{
