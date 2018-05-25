@@ -18,9 +18,21 @@
           <div class="input">{{ formB.username }}</div>
           <div class="input">{{ formB.password1 }}</div>
           <div class="input">{{ formB.password2 }}</div>
-          {{ form.errors }}
-          {{ form.non_field_errors }}
           <button class="register" type="submit" value='sign_up'>Register</button>
+          {% if formB.errors %}
+              {% for field in formB %}
+                  {% for error in field.errors %}
+                      <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endif %}
         </form>
     </div>
 
@@ -28,13 +40,28 @@
         <h1>LOG IN</h1>
         <form action="{% url 'loginView' %}" method="post">
           {% csrf_token %}
+          {{ form.name_of_field.errors }}
+          {{ form.non_field_errors }}
+          {{ form.errors }}
           <div class="input">{{ formA.username }}</div>
           <div class="input">{{ formA.password }}</div>
-          {{ form.errors }}
-          {{ form.non_field_errors }}
           <div class="buttonLogger">
               <button class="logger" type="submit" value='sign_in'>Login</button>
           </div>
+          {% if formA.errors %}
+              {% for field in formA %}
+                  {% for error in field.errors %}
+                      <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endif %}
         </form>
     </div>
 </div>

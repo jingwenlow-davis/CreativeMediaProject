@@ -26,6 +26,8 @@ def loginView(request):
     # if request.method == "POST" and form.is_valid():
     #     username = form.cleaned_data['username']
     #     password = form.cleaned_data['password']
+    form = CustomAuthenticationForm(request.POST)
+    print(form.errors)
     username = request.POST.get('username') # get username
     password = request.POST.get('password') # get password
     user = authenticate(request, username=username, password=password) # authenticate user
@@ -35,7 +37,12 @@ def loginView(request):
         return HttpResponseRedirect('/home') # bring user to home page
     else:
         # stay on the same page for incorrect login
-        return HttpResponseRedirect('/users/login')
+        # return HttpResponseRedirect('/users/login')
+        formA = CustomAuthenticationForm(request.POST or None) # form to login
+        formB = CustomUserCreationForm() # form to signup
+        args = {'formA': formA, 'formB': formB}
+        return render(request,'login.html', args)
+
 
 
 
@@ -43,24 +50,22 @@ def loginView(request):
 def signupView(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
+        print(form.errors)
         if form.is_valid():
             form.save()
             username = form.cleaned_data['username'] # get username
             password1 = form.cleaned_data['password1'] # get password
             password2 = form.cleaned_data['password2'] # get password
-            if not password2: # make sure there is a second password
-                raise forms.ValidationError("You must confirm your password")
-                # print(form.errors)
-            if password1 != password2: # make sure first and seocond passwords match!
-                raise forms.ValidationError("Your passwords do not match")
-                # print(form.errors)
             user = authenticate(request, username=username, password=password1) # authenticate user
             login(request, user) # login user
             return redirect('/home') # bring user to home page
         else:
             print(form.errors)
-        #form = CustomUserCreationForm()
-    return HttpResponseRedirect('/users/login')
+        formA = CustomAuthenticationForm() # form to login
+        formB = CustomUserCreationForm(request.POST or None) # form to signup
+        args = {'formA': formA, 'formB': formB}
+        return render(request,'login.html', args)
+
 
 
 # login view
@@ -72,6 +77,12 @@ class auth_login(TemplateView):
 
         args = {'formA': formA, 'formB': formB}
         return render(request, self.template_name, args)
+
+    def post(self, request):
+        formA = CustomAuthenticationForm(request.POST or None) # form to login
+        formB = CustomUserCreationForm(request.POST or None) # form to signup
+        args = {'formA': formA, 'formB': formB}
+        return render(request,self.template_name, args)
 
 
 
@@ -148,15 +159,13 @@ class addFriend(TemplateView):
         args = {'users':users, 'friends':friends, 'form':form}
         return render(request, self.template_name, args)
 
-# <QueryDict: {'csrfmiddlewaretoken': ['dxNvRZdleebpOYzhMIpZ9e7LjAk7mMdDLODjijZGe9PSzCa128qaiZiyhADHKT9K'], 'users': ['jingwenlow', 'sarah']}>
-
     def post(self, request):
         resp = request.POST.getlist('users') # get users to add to friends
         print(resp)
 
-        for i in range(len(resp)):
+        for i in range(len(resp)): # add all friends user selected
             friend = CustomUser.objects.get(username=resp[i]) # get friend to add/remove
-            Friend.make_friend(request.user, friend)
+            Friend.make_friend(request.user, friend) # add the friend
 
         friends = [] # list of current friends
         # get all users excluding current user
