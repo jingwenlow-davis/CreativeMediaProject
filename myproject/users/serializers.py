@@ -10,4 +10,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class FriendSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Friend
-        fields = ('current_user','users',)
+        fields = ('current_user', 'users',)

@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, User
 from .models import CustomUser, Post
 from django.forms import ModelForm
 
+
 # login form
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label='username',widget=forms.TextInput(attrs={'placeholder':'username'}))
@@ -38,3 +39,11 @@ class AddPost(ModelForm):
     class Meta:
         model = Post
         fields = ['post', 'img',]
+
+class AddFriend(forms.Form):
+    users = forms.ModelMultipleChoiceField(
+        queryset=CustomUser.objects.values_list("username", flat=True).distinct(),
+    )
+
+
+    # Countries = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,choices=OPTIONS)

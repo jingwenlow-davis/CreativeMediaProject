@@ -11,7 +11,7 @@ from django.views import generic
 from django.views.generic import TemplateView
 from django.core.exceptions import ValidationError
 
-from .forms import CustomAuthenticationForm, CustomUserCreationForm, AddPost
+from .forms import CustomAuthenticationForm, CustomUserCreationForm, AddPost, AddFriend
 from .models import Post, Friend, CustomUser
 from .serializers import FriendSerializer, UserSerializer
 
@@ -136,6 +136,7 @@ class addFriend(TemplateView):
 
     @method_decorator(login_required) # redirect to home if logged out
     def get(self, request):
+        form = AddFriend()
         friends = []
         # get all users excluding current user
         users = CustomUser.objects.exclude(id=request.user.id)
@@ -144,15 +145,38 @@ class addFriend(TemplateView):
             friend = Friend.objects.get(current_user=request.user) # get current users friends object
             friends = friend.users.all() # get current users friends
 
-        args = {'users':users, 'friends':friends}
+        args = {'users':users, 'friends':friends, 'form':form}
         return render(request, self.template_name, args)
+
+# <QueryDict: {'csrfmiddlewaretoken': ['dxNvRZdleebpOYzhMIpZ9e7LjAk7mMdDLODjijZGe9PSzCa128qaiZiyhADHKT9K'], 'users': ['jingwenlow', 'sarah']}>
+
+    def post(self, request):
+        resp = request.POST.getlist('users') # get users to add to friends
+        print(resp)
+
+        for i in range(len(resp)):
+            friend = CustomUser.objects.get(username=resp[i]) # get friend to add/remove
+            Friend.make_friend(request.user, friend)
+
+        friends = [] # list of current friends
+        # get all users excluding current user
+        users = CustomUser.objects.exclude(id=request.user.id)
+        # check if user has friends
+        if Friend.objects.filter(current_user=request.user):
+            friend = Friend.objects.get(current_user=request.user) # get current users friends object
+            friends = friend.users.all() # get current users friends
+
+        form = AddFriend()
+        args = {'users':users, 'friends':friends, 'form':form}
+        return render(request, self.template_name, args)
+
 
 
 # add or remove a friend
 def change_friends(request, operation, pk):
     friend = CustomUser.objects.get(pk=pk) # get friend to add/remove
     if operation == 'add': # add friend
-        Friend.make_friend(request.user, friend) #
+        Friend.make_friend(request.user, friend)
 
     elif operation == 'remove': # remove friend
         Friend.lose_friend(request.user, friend)

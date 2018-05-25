@@ -37,17 +37,23 @@
   </div>
 
   <div class="friendsList">
-      <div class="possFriends">
-        <h3 class="allUsers">All Users</h3>
-        {% for user in users %}
-        <a class="users" href="{% url 'change_friends' operation='add' pk=user.pk %}">
-          {{ user.username }}
-        </a>
-        {% endfor %}
+    <h3 class="allUsers">All Users</h3>
+
+    <form method="post">
+      <div class="selectFriend">
+
+      {% csrf_token %}
+      {{ form.as_table }}
       </div>
       <div class="post">
           <button class="green">Add Friend</button>
       </div>
+    </form>
+
   </div>
+
+
+
+
 
 {% endblock %}

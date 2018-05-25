@@ -108,6 +108,20 @@ div.friendsList{
     flex: 0 0 22%;
 }
 
+div.selectFriend{
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 22%;
+}
+
+select{
+  height: 160px;
+}
+
+option{
+  font-size: large;
+}
+
 div.possFriends{
     padding: 15px;
     height: 170px;
