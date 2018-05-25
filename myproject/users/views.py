@@ -26,18 +26,16 @@ def loginView(request):
     # if request.method == "POST" and form.is_valid():
     #     username = form.cleaned_data['username']
     #     password = form.cleaned_data['password']
-    form = CustomAuthenticationForm(request.POST)
-    print(form.errors)
-    username = request.POST.get('username') # get username
-    password = request.POST.get('password') # get password
-    user = authenticate(request, username=username, password=password) # authenticate user
+    if request.method == 'POST':
+        form = CustomAuthenticationForm(request.POST)
+        print(form.errors)
+        username = request.POST.get('username') # get username
+        password = request.POST.get('password') # get password
+        user = authenticate(request, username=username, password=password) # authenticate user
 
-    if user is not None and user.is_active:
-        login(request, user) # log user in
-        return HttpResponseRedirect('/home') # bring user to home page
-    else:
-        # stay on the same page for incorrect login
-        # return HttpResponseRedirect('/users/login')
+        if user is not None and user.is_active:
+            login(request, user) # log user in
+            return HttpResponseRedirect('/home') # bring user to home page
         formA = CustomAuthenticationForm(request.POST or None) # form to login
         formB = CustomUserCreationForm() # form to signup
         args = {'formA': formA, 'formB': formB}
@@ -59,8 +57,6 @@ def signupView(request):
             user = authenticate(request, username=username, password=password1) # authenticate user
             login(request, user) # login user
             return redirect('/home') # bring user to home page
-        else:
-            print(form.errors)
         formA = CustomAuthenticationForm() # form to login
         formB = CustomUserCreationForm(request.POST or None) # form to signup
         args = {'formA': formA, 'formB': formB}

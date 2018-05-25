@@ -40,9 +40,9 @@
         <h1>LOG IN</h1>
         <form action="{% url 'loginView' %}" method="post">
           {% csrf_token %}
-          {{ form.name_of_field.errors }}
-          {{ form.non_field_errors }}
-          {{ form.errors }}
+          {{ formA.name_of_field.errors }}
+          {{ formA.non_field_errors }}
+          {{ formA.errors }}
           <div class="input">{{ formA.username }}</div>
           <div class="input">{{ formA.password }}</div>
           <div class="buttonLogger">

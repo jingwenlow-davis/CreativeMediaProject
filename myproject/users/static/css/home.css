@@ -105,6 +105,11 @@ div.text{
   flex: 0 0 60%;
 }
 
+div.notLogged{
+  margin: 30px;
+  font-size: large;
+  font-weight: 600;
+}
 
 
 /**** QUOTES ****/

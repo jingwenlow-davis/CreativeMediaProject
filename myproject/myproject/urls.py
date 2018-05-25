@@ -29,12 +29,11 @@ router.register(r'friend', views.FriendViewSet)
 
 urlpatterns = [
     # path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('friends/', views.friend_list),
-    url('^(?P<username>.+).com/api/', views.friend_list),
     path('', RedirectView.as_view(url='/home', permanent=False), name='index'),
     path('home/', views.Home.as_view(), name='home'),
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url('^(?P<username>.+).com/api/', views.friend_list),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')), #, namespace='users')),
     path('users/', include('django.contrib.auth.urls')),
