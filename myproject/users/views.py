@@ -161,19 +161,20 @@ def change_friends(request, operation, pk):
 
 
 @csrf_exempt
-def friend_list(request):
-    """
-    List all friends.
-    """
-    if request.method == 'GET':
-        friend = Friend.objects.filter(current_user=request.user) # get current user's friend object
+def friend_list(request, username):
 
-        serializer = FriendSerializer(friend, many=True, context={'request': request})
+    if request.method == 'GET':
+        current_user = CustomUser.objects.get(username=username)
+        friend = Friend.objects.filter(current_user=current_user) # get current user's friend object
+        friends = friend[0].users.all() # get all of current user's friends
+        serializer = UserSerializer(friends, many=True, context={'request': request})
         return JsonResponse(serializer.data, safe=False)
+
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint to view users.
     """
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
@@ -181,7 +182,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class FriendViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint to view friends.
     """
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
