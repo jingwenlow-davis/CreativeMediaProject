@@ -1,19 +1,23 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.urls import reverse_lazy
+# from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
-
-
-# Create your views here.
-from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views import generic
 from django.views.generic import TemplateView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.core.exceptions import ValidationError
 
 from .forms import CustomAuthenticationForm, CustomUserCreationForm, AddPost
 from .models import Post, Friend, CustomUser
+from .serializers import FriendSerializer, UserSerializer
+
+from rest_framework import viewsets
+
+
 
 # when user clicks login
 def loginView(request):
@@ -41,18 +45,18 @@ def signupView(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data['username']
-            password1 = form.cleaned_data['password1']
-            password2 = form.cleaned_data['password2']
+            username = form.cleaned_data['username'] # get username
+            password1 = form.cleaned_data['password1'] # get password
+            password2 = form.cleaned_data['password2'] # get password
             if not password2: # make sure there is a second password
-                # raise forms.ValidationError("You must confirm your password")
-                print(form.errors)
+                raise forms.ValidationError("You must confirm your password")
+                # print(form.errors)
             if password1 != password2: # make sure first and seocond passwords match!
-                # raise forms.ValidationError("Your passwords do not match")
-                print(form.errors)
+                raise forms.ValidationError("Your passwords do not match")
+                # print(form.errors)
             user = authenticate(request, username=username, password=password1) # authenticate user
             login(request, user) # login user
-            return redirect('/users/login') # bring user to home page
+            return redirect('/home') # bring user to home page
         else:
             print(form.errors)
         #form = CustomUserCreationForm()
@@ -154,3 +158,30 @@ def change_friends(request, operation, pk):
         Friend.lose_friend(request.user, friend)
 
     return redirect('addFriend') # refresh page
+
+
+@csrf_exempt
+def friend_list(request):
+    """
+    List all friends.
+    """
+    if request.method == 'GET':
+        friend = Friend.objects.filter(current_user=request.user) # get current user's friend object
+
+        serializer = FriendSerializer(friend, many=True, context={'request': request})
+        return JsonResponse(serializer.data, safe=False)
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+
+
+class FriendViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer

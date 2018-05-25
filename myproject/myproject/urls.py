@@ -16,13 +16,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView, RedirectView
-from django.conf.urls import url
-from users import views
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
+from rest_framework import routers
+from users import views
+
+router = routers.DefaultRouter()
+# router.register(r'(?P<username>.+)/$', views.UserViewSet)
+router.register(r'user', views.UserViewSet)
+router.register(r'friend', views.FriendViewSet)
+
+# router.register(r'user', views.UserViewSet)
+
+    # url(r'^connect/(?P<operation>.+)/(?P<pk>\d+)/$', views.change_friends, name='change_friends'),
 
 urlpatterns = [
     # path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('friends/', views.friend_list),
     path('', RedirectView.as_view(url='/home', permanent=False), name='index'),
     path('home/', views.Home.as_view(), name='home'),
     path('admin/', admin.site.urls),
